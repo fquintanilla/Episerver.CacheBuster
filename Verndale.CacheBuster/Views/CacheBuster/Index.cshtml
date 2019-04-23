@@ -1,0 +1,107 @@
+﻿@inherits System.Web.Mvc.WebViewPage<Verndale.CacheBuster.Services.Pagination<Verndale.CacheBuster.Models.CacheItem>>
+@using System.Web.Mvc.Html
+@using EPiServer.Framework.Web.Mvc.Html
+@using Verndale.CacheBuster.Models
+
+@{
+    Layout = null;
+}
+
+<head>
+    <!-- Mimic Internet Explorer 7 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <link href="../../../App_Themes/Default/Styles/system.css" type="text/css" rel="stylesheet">
+    <link href="../../../App_Themes/Default/Styles/ToolButton.css" type="text/css" rel="stylesheet">
+    
+    @Html.CssLink(EPiServer.Shell.Paths.ToClientResource("Shell", "ClientResources/epi/themes/legacy/ShellWidgets.css"))
+    @Html.CssLink(EPiServer.Shell.Paths.ToClientResource("Shell", "ClientResources/epi/themes/legacy/ShellWidgetsLightTheme.css"))
+    @Html.CssLink(EPiServer.Shell.Paths.ToClientResource("Shell", "ClientResources/epi/themes/legacy/ShellCore.css"))
+    @Html.CssLink(EPiServer.Shell.Paths.ToClientResource("Shell", "ClientResources/epi/themes/legacy/ShellCoreLightTheme.css"))
+
+</head>
+
+<div class="epi-contentContainer epi-padding">
+    <div class="epi-contentArea">
+        <h1 class="EP-prefix">
+            Cache Buster
+            @*<a onclick="window.open('https://powerbuilder.home.blog/2019/02/28/content-caching-part-1/', '_blank', 'scrollbars=yes, height=500, location=no, menubar=no, resizable=yes, toolbar=no, width=840');return false;" title="Help" href="https://webhelp.episerver.com/18-4/EpiserverUserGuide_csh.htm#viewchangelog" target="_blank">
+                <img class="EPEdit-CommandTool" align="absmiddle" src="/App_Themes/Default/Images/Tools/Help.png" border="0" alt="Help">
+            </a>*@
+        </h1>
+
+        <p class="EP-systemInfo">
+            See all cache keys and give anyone a way to explicitly remove them.
+        </p>
+    </div>
+
+    @using (Html.BeginForm("Retrieve", "CacheBuster"))
+    {
+        <div class="epi-formArea">
+            <div class="epi-size20">
+                <div>
+                    <label for="FullRegion_MainRegion_ArchiveCheckBox">Key Name</label>
+                    <input name="term" type="text" maxlength="100" id="term" value="@ViewBag.Term" class="episize240">
+                </div>
+            </div>
+
+            <span class="epi-cmsButton">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Import" type="submit" value=" Retrieve" title=" Retrieve">
+            </span>
+        </div>
+    }
+
+    @if (Model != null)
+    {
+        <table class="epi-default epi-marginVertical" cellpadding="0">
+            <tbody>
+            <tr>
+                <th>
+                    Key
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Value
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+            </tbody>
+            <tbody>
+
+            @foreach (CacheItem entry in Model)
+            {
+            <tr>
+                <td>
+                    @entry.Key
+                </td>
+                <td>
+                    @entry.Type
+                </td>
+                <td>
+                    @entry.Value
+                </td>
+                <td>
+                    <a href="@Url.Action("Remove", "CacheBuster")?key=@entry.Key&term=@ViewBag.Term&page=@Model.PageNumber">Remove</a>
+                </td>
+            </tr>
+            }
+            <tr>
+                <th colspan="4">Total Found: @Model.TotalItems</th>
+            </tr>
+
+
+            </tbody>
+        </table>
+        <div>
+            <span class="@(Model.PageNumber == 1 ? "epi-cmsButtondisabled" : "epi-cmsButton")">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-ArrowLeft" type="button" onclick="window.location = '@Url.Action("Retrieve", "CacheBuster")?term=@ViewBag.Term&page=@(Model.PageNumber - 1)';" value="Previous" title="Previous" @(Model.PageNumber == 1 ? "disabled" : "")>
+            </span>
+            <span class="@(Model.HasNextPage == false ? "epi-cmsButtondisabled" : "epi-cmsButton")">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-ArrowRight" type="button" onclick="window.location = '@Url.Action("Retrieve", "CacheBuster")?term=@ViewBag.Term&page=@(Model.PageNumber + 1)';" value="Next" title="Next" @(Model.HasNextPage == false ? "disabled" : "")>
+            </span>
+        </div>
+    }
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Verndale.CacheBuster</id>
+    <version>$version$</version>
+    <title>Cache Buster</title>
+    <authors>Verndale</authors>
+    <owners />
+    <iconUrl>http://world.episerver.com/PageFiles/3/Icons/Nuget.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>See all cache keys and give anyone a way to explicitly remove them.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>EPiServer Verndale Package Cache</tags>
+  </metadata>
+  <files>
+    <file src="bin\Verndale.CacheBuster.dll" target="lib\net46\" />
+    <file src="bin\Verndale.CacheBuster.dll" target="lib\net47\" />
+    <file src="Modules\_protected\Verndale.CacheBuster\Verndale.CacheBuster.zip" target="content\Modules\_protected\Verndale.CacheBuster\"/>
+    <file src="Readme.txt" target="" />
+  </files>
+</package>
