@@ -48,6 +48,7 @@ namespace Verndale.CacheBuster.Controllers
             return $"{Shell.Paths.ProtectedRootPath}Verndale.CacheBuster/Views/CacheBuster/{viewName}.cshtml";
         }
 
+        [ValidateInput(false)]
         public ActionResult Retrieve(string term, int? page)
         {
             Logger.Debug($"Begin Retrieve({term ?? "NULL"}, {page})");
