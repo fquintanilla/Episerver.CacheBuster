@@ -10,6 +10,7 @@ using PlugInArea = EPiServer.PlugIn.PlugInArea;
 
 namespace Verndale.CacheBuster.Controllers
 {
+    [Authorize(Roles = "Administrators,WebAdmins")]
     [GuiPlugIn(Area = PlugInArea.AdminMenu, UrlFromModuleFolder = "CacheBuster", DisplayName = "Cache Buster")]
     public class VerndaleCacheBusterController : Controller
     {
